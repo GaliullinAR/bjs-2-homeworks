@@ -1,7 +1,6 @@
-
+  "use strict"
 
 function solveEquation(a, b, c) {
-  "use strict";
   let arr = [];
   let discriminant;
   // код для задачи №1 писать здесь
@@ -18,33 +17,35 @@ function solveEquation(a, b, c) {
 }
 
 function calculateTotalMortgage(percent, contribution, amount, date) {
-  "use strict";
     // код для задачи №2 писать здесь
-  let totalAmount;
+  let totalAmount = 0;
+  let today = new Date(2022, 5, 11);
+  let firstPayment = parseFloat(contribution);
+  let loanRate = parseFloat(percent) / 12;
+  let amountOfCredit = parseFloat(amount);
 
-  if (Number.isNaN(+percent)) {
-    return totalAmount = `Параметр "Процентная ставка" содержит неправильное значение "${percent}"`;
-  } else if (Number.isNaN(+contribution)) {
-    return totalAmount = `Параметр "Начальный взнос" содержит неправильное значение "${contribution}"`;
-  } else if (Number.isNaN(+amount)) {
-    return totalAmount = `Параметр "Общая стоимость" содержит неправильное значение "${amount}"`;
-  }
-
-  let today = new Date(2022, 5, 6);
   let numberOfMonths =
     (date.getFullYear() - today.getFullYear()) * 12 + (date.getMonth() - today.getMonth()) + 1;
   
-  let loanAmount = amount - contribution;
-  let percentOfMonth = percent / 12 / 100;
+
+  if (Number.isNaN(loanRate)) {
+    return totalAmount = `Параметр "Процентная ставка" содержит неправильное значение "${percent}"`;
+  } else if (Number.isNaN(firstPayment)) {
+    return totalAmount = `Параметр "Начальный взнос" содержит неправильное значение "${contribution}"`;
+  } else if (Number.isNaN(amountOfCredit)) {
+    return totalAmount = `Параметр "Общая стоимость" содержит неправильное значение "${amount}"`;
+  }
+
+  let loanAmount = amountOfCredit - firstPayment;
+
+  let percentOfMonth = loanRate / 100;
 
   let totalMonphlyPayment =
     loanAmount *
     (percentOfMonth + percentOfMonth / (Math.pow(1 + percentOfMonth, numberOfMonths) - 1));
   totalAmount = totalMonphlyPayment * numberOfMonths;
 
-  totalAmount = totalAmount.toFixed(2);
-  totalAmount = Number(totalAmount);
-
+  totalAmount = Number(totalAmount.toFixed(2));
   console.log(totalAmount);
   
   return totalAmount;
