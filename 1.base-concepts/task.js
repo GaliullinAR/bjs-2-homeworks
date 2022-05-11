@@ -20,13 +20,16 @@ function solveEquation(a, b, c) {
 function calculateTotalMortgage(percent, contribution, amount, date) {
   "use strict";
     // код для задачи №2 писать здесь
-  if (typeof percent === 'string') return `Параметр "Процентная ставка" содержит неправильное значение "${percent}"`
-  if (typeof contribution === "string")
-    return `Параметр "Начальный взнос" содержит неправильное значение "${contribution}"`;
-  if (typeof amount === "string")
-    return `Параметр "Общая стоимость" содержит неправильное значение "${amount}"`;
-
   let totalAmount;
+
+  if (Number.isNaN(+percent)) {
+    return totalAmount = `Параметр "Процентная ставка" содержит неправильное значение "${percent}"`;
+  } else if (Number.isNaN(+contribution)) {
+    return totalAmount = `Параметр "Начальный взнос" содержит неправильное значение "${contribution}"`;
+  } else if (Number.isNaN(+amount)) {
+    return totalAmount = `Параметр "Общая стоимость" содержит неправильное значение "${amount}"`;
+  }
+
   let today = new Date(2022, 5, 6);
   let numberOfMonths =
     (date.getFullYear() - today.getFullYear()) * 12 + (date.getMonth() - today.getMonth()) + 1;
