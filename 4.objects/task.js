@@ -7,7 +7,6 @@ function Student(name, gender, age) {
 
 let student1 = new Student('Azat', 'male', 25);
 let student2 = new Student('Petya', 'male', 22);
-let student3 = new Student('Sasha', 'male', 18);
 
 Student.prototype.setSubject = function (subjectName) {
   //ваш код
