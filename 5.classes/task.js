@@ -91,12 +91,12 @@ class Library {
   }
 
   giveBookByName(bookName) {
-    let finder = this.books.findIndex((item) => item.name === bookName);
-    if (finder !== -1) {
-      let result = this.books.splice(finder, 1);
-      return result;
+    let finder = this.findBookBy('name', bookName);
+    if (finder === undefined) {
+      return null
     } else {
-      return null;
+      this.books = this.books.filter((element) => element.name !== bookName);
+      return finder;
     }
   }
 
