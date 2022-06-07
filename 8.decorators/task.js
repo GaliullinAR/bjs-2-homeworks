@@ -3,10 +3,10 @@ function cachingDecoratorNew(func) {
   let cache = [];
   function wrapper(...args) {
     let hash = args.join(',');
-    const idx = cache.findIndex(item => item.hash === hash);
-    if (idx !== -1) {
-      console.log(`Из кэша: ${cache[idx].value}`);
-      return `Из кэша: ${cache[idx].value}`;
+    const id = cache.find(item => item.hash === hash);
+    if (id !== undefined) {
+      console.log(`Из кэша: ${id.value}`);
+      return `Из кэша: ${id.value}`;
     }
     let result = func(...args);
     cache.push({ hash, value: result });
@@ -25,19 +25,17 @@ function cachingDecoratorNew(func) {
 function debounceDecoratorNew(func, ms) {
   // Ваш код
   let isThrottled = false;
-  let savedArgs;
-  let savedThis;
+  let time;
 
-  return function (...args) {
-    savedArgs = args;
-    savedThis = this;
-    if (isThrottled) {
-      return;
+  return function wrapper(...args) {
+    if (!isThrottled) {
+      func.apply(this, args);
     }
-    func.apply(savedThis, savedArgs);
     isThrottled = true;
+    clearTimeout(time);
 
-    setTimeout(() => {
+    time = setTimeout(() => {
+      func.apply(this, args);
       isThrottled = false;
     }, ms);
     
@@ -48,15 +46,25 @@ let add = () => console.log('Сигнал отправлен');
 
 function debounceDecorator2(func) {
   // Ваш код
+  let isThrottled = false;
+  let time;
+  wrapper.count = 0;
+
   function wrapper(...args) {
-    wrapper.history.push(args);
-    wrapper.count = wrapper.history.length;
-    return func.apply(this, args);
-  }
-  wrapper.history = [];
+    wrapper.count++;
+
+    if (!isThrottled) {
+      func.apply(this, args);
+    }
+    isThrottled = true;
+    clearTimeout(time);
+
+    time = setTimeout(() => {
+      func.apply(this, args);
+      isThrottled = false;
+    }, ms);
+  };
   return wrapper;
 }
-
-let res = debounceDecorator2(add);
 
 
